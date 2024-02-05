@@ -1,4 +1,4 @@
-module top_level#(
+module vga_test#(
 	parameter H_PIXELS = 640,
 	parameter V_PIXELS = 480
 )
@@ -10,12 +10,15 @@ module top_level#(
 	output [1:0] blu,
 	output [1:0] grn,
 	output hsync,
-	output vsync
+	output vsync,
+	output pix_clk_out
 );
 
 	wire [9:0] h_sel;
 	wire [8:0] v_sel;
 	wire display_en;
+	
+	assign pix_clk_out = pix_clk;
 
 	vga_controller vga(
 		.reset(reset),
@@ -26,6 +29,10 @@ module top_level#(
 		.h_sel(h_sel),
 		.display_en(display_en)
 	);
+	
+	assign red = h_sel[9:8];
+	assign blu = h_sel[7:6];
+	assign grn = h_sel[5:4];
 	
 	
 

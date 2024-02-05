@@ -1,4 +1,4 @@
-module vga_controller#(
+module vga_controller(
 	parameter WIDTH = 640, //10 bit line select, 10 bit counter including porches/waits
 	parameter HEIGHT = 480, //9 bit column select, 10 bit counter including porches/waits
 	parameter H_FRONT_PORCH = 16,
@@ -17,7 +17,7 @@ module vga_controller#(
 	output display_en
 );
 
-	parameter LINE_WAIT = HEIGHT + H_FRONT_PORCH + H_BACK_PORCH + H_SYNC_WAIT;
+	parameter LINE_WAIT = HEIGHT + H_FRONT_PORCH + H_BACK_PORCH_ + H_SYNC_WAIT;
 	
 	parameter V_LINES_WAIT = HEIGHT + V_FRONT_PORCH + V_BACK_PORCH + V_SYNC_WAIT;
 	
@@ -29,8 +29,8 @@ module vga_controller#(
 	wire line_end, frame_end;
 	
 	counter#(
-		.DEPTH(H_COUNT_DEPTH),
-		.RESET_VAL(LINE_WAIT)
+		DEPTH = H_COUNT_DEPTH,
+		RESET_VAL = LINE_WAIT
 	)h_counter (
 		.clk(pix_clk),
 		.reset(reset),
@@ -40,8 +40,8 @@ module vga_controller#(
 	);
 	
 	counter #(
-		.DEPTH(V_COUNT_DEPTH),
-		.RESET_VAL(V_LINES_WAIT)
+		DEPTH = V_COUNT_DEPTH,
+		RESET_VAL = V_LINES_WAIT
 	)v_counter (
 		.clk(pix_clk),
 		.reset(reset),

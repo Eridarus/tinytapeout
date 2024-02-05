@@ -21,6 +21,6 @@ module counter#(
 		end
 		
 	assign count = val;
-	assign last_cycle = (val==RESET_VAL-1);
+	assign last_cycle = val=RESET_VAL-1;
 
 endmodule

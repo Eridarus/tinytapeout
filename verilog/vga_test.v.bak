@@ -27,6 +27,10 @@ module top_level#(
 		.display_en(display_en)
 	);
 	
+	assign red = h_sel[9:8];
+	assign blu = h_sel[7:6];
+	assign grn = h_sel[5:4];
+	
 	
 
 endmodule
