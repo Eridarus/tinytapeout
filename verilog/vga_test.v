@@ -5,7 +5,7 @@ module vga_test#(
 (
 	input [3:0] buttons,
 	input reset,
-	input pix_clk,
+	input pix_clk_in,
 	output [1:0] red,
 	output [1:0] blu,
 	output [1:0] grn,
@@ -16,7 +16,13 @@ module vga_test#(
 
 	wire [9:0] h_sel;
 	wire [8:0] v_sel;
-	wire display_en;
+	wire display_en, pix_clk;
+	
+	pll_vga(
+		//.rst(reset),
+		.refclk(pix_clk_in),
+		.outclk_0(pix_clk)
+	);
 	
 	assign pix_clk_out = pix_clk;
 
@@ -30,9 +36,11 @@ module vga_test#(
 		.display_en(display_en)
 	);
 	
-	assign red = h_sel[9:8];
-	assign blu = h_sel[7:6];
-	assign grn = h_sel[5:4];
+	/*assign red[1] = ~(h_sel[0] & h_sel[1]);
+	assign blu[1] = h_sel[0] & ~h_sel[1];
+	assign grn[1] = ~h_sel[0] & h_sel[1];*/
+	
+	assign red[1] = h_sel > v_sel ? 1'b1 : 1'b0;
 	
 	
 

@@ -50,8 +50,8 @@ module vga_controller#(
 		.last_cycle(frame_end)
 	);
 	
-	assign hsync = (h_count < H_SYNC_WAIT) ? 1'b1 : 1'b0;
-	assign vsync = (v_count < V_SYNC_WAIT) ? 1'b1 : 1'b0;
+	assign hsync = ((h_count < H_SYNC_WAIT) ? 1'b0 : 1'b1)|~reset;
+	assign vsync = ((v_count < V_SYNC_WAIT) ? 1'b0 : 1'b1)|~reset;
 	assign h_sel = h_count - (H_SYNC_WAIT + H_BACK_PORCH);
 	assign v_sel = v_count - (V_SYNC_WAIT + V_BACK_PORCH);
 	assign display_en = (h_count >= (H_SYNC_WAIT + H_BACK_PORCH)) & (v_count >= (V_SYNC_WAIT + V_BACK_PORCH)) & (h_count < (LINE_WAIT - H_FRONT_PORCH)) & (v_count < (V_LINES_WAIT - V_FRONT_PORCH));
